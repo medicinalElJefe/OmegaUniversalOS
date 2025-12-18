@@ -23,6 +23,24 @@ class OmegaUniversalOS:
     Manages interactions across all domain modules.
     """
     
+    @staticmethod
+    def _get_strength_icon(strength: str) -> str:
+        """
+        Get icon for propagation strength.
+        
+        Args:
+            strength: Propagation strength ('strong', 'moderate', or 'weak')
+            
+        Returns:
+            Appropriate icon for the strength level
+        """
+        strength_icons = {
+            'strong': '🔥',
+            'moderate': '⚡',
+            'weak': '✨'
+        }
+        return strength_icons.get(strength, '✨')
+    
     def __init__(self, config_path: str = None):
         """
         Initialize Omega Universal OS.
@@ -361,7 +379,7 @@ class OmegaUniversalOS:
         
         print(f"\n📊 Cross-Domain Ripple Effects:")
         for domain, impact_data in universal_result['cross_domain_impacts'].items():
-            icon = "🔥" if impact_data['propagation_strength'] == 'strong' else "⚡" if impact_data['propagation_strength'] == 'moderate' else "✨"
+            icon = self._get_strength_icon(impact_data['propagation_strength'])
             print(f"  {icon} {domain.upper():12} → {impact_data['impact_score']:.3f} ({impact_data['propagation_strength']})")
         
         print(f"\n⚖️  Universal Coherence: {universal_result['universal_coherence_score']:.3f}")
@@ -449,7 +467,7 @@ class OmegaUniversalOS:
         
         print(f"\n🔄 Cross-Domain Ripple Propagation:")
         for domain, impact_data in universal_analysis['cross_domain_impacts'].items():
-            strength_icon = "🔥" if impact_data['propagation_strength'] == 'strong' else "⚡" if impact_data['propagation_strength'] == 'moderate' else "✨"
+            strength_icon = self._get_strength_icon(impact_data['propagation_strength'])
             print(f"   {strength_icon} {domain.upper():12} → Impact: {impact_data['impact_score']:.3f} ({impact_data['propagation_strength']})")
         
         print(f"\n⚖️  Ethical Alignment:")

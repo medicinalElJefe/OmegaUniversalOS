@@ -49,6 +49,14 @@ class UniversalRippleCoordinator:
         }
     }
     
+    # Configurable thresholds
+    DEFAULT_UNIVERSAL_COHERENCE_THRESHOLD = 0.70
+    DEFAULT_ETHICAL_THRESHOLD = 0.25
+    RESONANCE_HIGH_THRESHOLD = 0.8
+    RESONANCE_MEDIUM_THRESHOLD = 0.5
+    ETHICS_HIGH_THRESHOLD = 0.6
+    ETHICS_MODERATE_THRESHOLD = 0.4
+    
     def __init__(self, ripple_engine=None, config: Optional[Dict[str, Any]] = None):
         """
         Initialize Universal Ripple Coordinator.
@@ -62,7 +70,14 @@ class UniversalRippleCoordinator:
         self.ripple_engine = ripple_engine
         
         # Universal coherence threshold
-        self.universal_coherence_threshold = self.config.get('universal_coherence_threshold', 0.70)
+        self.universal_coherence_threshold = self.config.get(
+            'universal_coherence_threshold', 
+            self.DEFAULT_UNIVERSAL_COHERENCE_THRESHOLD
+        )
+        self.ethical_threshold = self.config.get(
+            'ethical_threshold',
+            self.DEFAULT_ETHICAL_THRESHOLD
+        )
         
         # Cross-domain ripple history
         self.universal_ripple_history = []
@@ -292,7 +307,7 @@ class UniversalRippleCoordinator:
         # Extract impact scores
         impact_values = [data['impact_score'] for data in cross_impacts.values()]
         
-        # Calculate variance (low variance = high resonance/harmony)
+        # Calculate mean and variance
         mean_impact = sum(impact_values) / len(impact_values)
         variance = sum((x - mean_impact) ** 2 for x in impact_values) / len(impact_values)
         
@@ -300,10 +315,10 @@ class UniversalRippleCoordinator:
         # Using harmonic formula: resonance = 1 / (1 + variance)
         resonance_score = 1.0 / (1.0 + variance * 10)
         
-        # Classify resonance type
-        if resonance_score > 0.8:
+        # Classify resonance type using configurable thresholds
+        if resonance_score > self.RESONANCE_HIGH_THRESHOLD:
             resonance_type = 'constructive'  # Ripples reinforce each other
-        elif resonance_score > 0.5:
+        elif resonance_score > self.RESONANCE_MEDIUM_THRESHOLD:
             resonance_type = 'partial'
         else:
             resonance_type = 'destructive'  # Ripples may interfere
@@ -384,14 +399,14 @@ class UniversalRippleCoordinator:
         for domain, impact_data in cross_impacts.items():
             impact = impact_data['impact_score']
             
-            # Ethical threshold: no domain should drop below 0.25
-            if impact < 0.25:
+            # Check against ethical threshold
+            if impact < self.ethical_threshold:
                 ethical_violations.append(f"{domain}: impact critically low ({impact:.2f})")
             
-            # Classify ethical status
-            if impact >= 0.6:
+            # Classify ethical status using configurable thresholds
+            if impact >= self.ETHICS_HIGH_THRESHOLD:
                 status = 'ethical'
-            elif impact >= 0.35:
+            elif impact >= self.ETHICS_MODERATE_THRESHOLD:
                 status = 'acceptable'
             else:
                 status = 'concerning'
@@ -410,7 +425,7 @@ class UniversalRippleCoordinator:
             'overall_ethics_score': overall_ethics,
             'domain_ethics': domain_ethics,
             'violations': ethical_violations,
-            'ethics_level': 'high' if overall_ethics > 0.6 else 'moderate' if overall_ethics > 0.4 else 'low'
+            'ethics_level': 'high' if overall_ethics > self.ETHICS_HIGH_THRESHOLD else 'moderate' if overall_ethics > self.ETHICS_MODERATE_THRESHOLD else 'low'
         }
     
     def _generate_universal_recommendations(self, universal_coherence: Dict[str, Any],
