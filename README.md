@@ -274,6 +274,12 @@ config.save('my_config.json')
 
 Contributions are welcome! Please feel free to submit pull requests or open issues for bugs and feature requests.
 
+## 👤 Author
+
+**Jeff Dewey El Jefe**
+- Email: Jeffdeweyeljefe@gmail.com
+- GitHub: [@medicinalElJefe](https://github.com/medicinalElJefe)
+
 ## 📄 License
 
 This project is licensed under the MIT License.

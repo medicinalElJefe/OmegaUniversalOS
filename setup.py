@@ -16,7 +16,8 @@ else:
 setup(
     name='omega-universal-os',
     version='0.1.0',
-    author='Omega Universal OS Team',
+    author='Jeff Dewey El Jefe',
+    author_email='Jeffdeweyeljefe@gmail.com',
     description='Universal platform for managing ripple coherence, AI-driven predictions, and ethical reasoning',
     long_description=long_description,
     long_description_content_type='text/markdown',
