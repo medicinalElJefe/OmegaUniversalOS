@@ -47,6 +47,14 @@ htmlcov/
 # Logs
 *.log
 
+# PyInstaller
+# Exclude auto-generated spec files but keep our custom one
+*.spec
+!omega_gui.spec
+
+# Temporary files
+test_cross_domain.py
+
 # Configuration (optional - uncomment if you want to ignore local configs)
 # config.json
 # *.local.json

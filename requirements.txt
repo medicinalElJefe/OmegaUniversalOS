@@ -1,8 +1,14 @@
 # Omega Universal OS - Python Dependencies
-# Core dependencies are minimal to keep the system lightweight
 
-# No external dependencies required for core functionality
-# All modules use Python standard library
+# GUI Framework
+PyQt5>=5.15.0
+
+# Data Visualization
+matplotlib>=3.5.0
+numpy>=1.21.0
+
+# Packaging
+pyinstaller>=5.0.0
 
 # Optional development dependencies (install with: pip install -e ".[dev]")
 # pytest>=7.0.0
