@@ -10,7 +10,7 @@ import argparse
 from typing import Dict, Any
 
 from utils import setup_logging, load_config, get_logger
-from ai_engine import RippleEngine, PredictionModel, CalibrationEngine
+from ai_engine import RippleEngine, PredictionModel, CalibrationEngine, UniversalRippleCoordinator
 from education import AdaptiveLearningSystem, StudentRippleTracker
 from healthcare import HealthRippleSimulator, PublicHealthAnalyzer
 from governance import PolicyTester, ResourceAllocator
@@ -47,6 +47,9 @@ class OmegaUniversalOS:
         ai_config = self.config.get_module_config('ai_engine')
         self.ripple_engine = RippleEngine(ai_config)
         self.calibration_engine = CalibrationEngine(ai_config)
+        
+        # Initialize Universal Ripple Coordinator for cross-domain integration
+        self.universal_coordinator = UniversalRippleCoordinator(self.ripple_engine, ai_config)
         
         # Initialize domain modules
         self._initialize_modules()
@@ -94,10 +97,8 @@ class OmegaUniversalOS:
         """Run interactive mode with role-based interaction."""
         self.logger.info("Starting interactive mode")
         
-        print("\n" + "="*60)
-        print("Welcome to Omega Universal OS")
-        print("Universal Platform for Ripple Coherence and AI Predictions")
-        print("="*60 + "\n")
+        # Display Universal Introduction
+        self._display_universal_introduction()
         
         # Role selection
         role = self._select_role()
@@ -116,6 +117,43 @@ class OmegaUniversalOS:
             self._economist_workflow()
         else:
             self._demo_workflow()
+    
+    def _display_universal_introduction(self):
+        """Display dynamic universal introduction representing the true nature of the system."""
+        print("\n" + "="*70)
+        print("=" * 70)
+        print("║" + " " * 68 + "║")
+        print("║" + "        OMEGA UNIVERSAL OS - UNIVERSAL RIPPLE COHERENCE SYSTEM".center(68) + "║")
+        print("║" + " " * 68 + "║")
+        print("=" * 70)
+        print()
+        print("  A truly universal platform for ripple coherence analysis,")
+        print("  ethical decision-making, and cross-domain prediction.")
+        print()
+        print("  🌐 UNIVERSAL DOMAINS:")
+        print("     • Education    - Adaptive learning & knowledge ripple effects")
+        print("     • Healthcare   - Personal & population health trajectories")
+        print("     • Governance   - Policy impact & resource optimization")
+        print("     • Economics    - Market dynamics & trade-off analysis")
+        print()
+        print("  🔬 ADVANCED CAPABILITIES:")
+        print("     ✓ Cross-domain ripple propagation using interaction matrices")
+        print("     ✓ Harmonic resonance analysis across all domains")
+        print("     ✓ Universal coherence validation with ethical alignment")
+        print("     ✓ Multi-dimensional impact synthesis and prediction")
+        print("     ✓ Holistic system summaries spanning interconnected domains")
+        print()
+        print("  🎯 MATHEMATICAL FOUNDATIONS:")
+        print("     • Domain interaction coefficients (empirically derived)")
+        print("     • Harmonic resonance calculations (wave interference)")
+        print("     • Tensor-based universal coherence computation")
+        print("     • Inverse square law ripple dampening")
+        print("     • Geometric mean synergy analysis")
+        print()
+        print("  The system predicts ripple effects across ALL domains simultaneously,")
+        print("  ensuring decisions align ethically and coherently with universal goals.")
+        print("="*70 + "\n")
+    
     
     def _select_role(self) -> str:
         """Select user role."""
@@ -271,7 +309,7 @@ class OmegaUniversalOS:
             print(f"  • {group}")
     
     def _policymaker_workflow(self):
-        """Policymaker workflow."""
+        """Policymaker workflow with universal ripple analysis."""
         print("\n--- Policy Testing Platform ---\n")
         
         policy_id = "education_reform_2024"
@@ -305,8 +343,36 @@ class OmegaUniversalOS:
             print(f"  Score: {coherence['coherence_score']:.2f}")
             print(f"  Status: {'Coherent ✓' if coherence['coherent'] else 'Needs Review'}")
         
-        print(f"\nRecommendations:")
+        # === UNIVERSAL CROSS-DOMAIN ANALYSIS ===
+        print(f"\n{'='*60}")
+        print("🌐 UNIVERSAL CROSS-DOMAIN IMPACT ANALYSIS")
+        print(f"{'='*60}")
+        
+        # Analyze using universal coordinator
+        policy_action = {
+            'domain': 'governance',
+            'action_type': 'education_reform',
+            'impact_score': impact['overall_impact'],
+            'alignment': policy_params['alignment_with_objectives'],
+            'magnitude': 1.0
+        }
+        
+        universal_result = self.universal_coordinator.analyze_universal_ripple(policy_action)
+        
+        print(f"\n📊 Cross-Domain Ripple Effects:")
+        for domain, impact_data in universal_result['cross_domain_impacts'].items():
+            icon = "🔥" if impact_data['propagation_strength'] == 'strong' else "⚡" if impact_data['propagation_strength'] == 'moderate' else "✨"
+            print(f"  {icon} {domain.upper():12} → {impact_data['impact_score']:.3f} ({impact_data['propagation_strength']})")
+        
+        print(f"\n⚖️  Universal Coherence: {universal_result['universal_coherence_score']:.3f}")
+        print(f"   Status: {'✓ UNIVERSALLY COHERENT' if universal_result['is_universally_coherent'] else '⚠ NEEDS REVIEW'}")
+        
+        print(f"\n💡 Recommendations:")
         for rec in test_result.get('recommendations', []):
+            print(f"  • {rec}")
+        
+        print(f"\n🔮 Universal Recommendations:")
+        for rec in universal_result.get('recommendations', []):
             print(f"  • {rec}")
     
     def _economist_workflow(self):
@@ -353,10 +419,53 @@ class OmegaUniversalOS:
         print(f"  Trade-off Acceptable: {'Yes ✓' if analysis['trade_off_acceptable'] else 'Needs Review'}")
     
     def _demo_workflow(self):
-        """Demo workflow showing all features."""
-        print("\n--- Demo Mode: Omega Universal OS Features ---\n")
+        """Demo workflow showing all features with universal ripple integration."""
+        print("\n--- Demo Mode: Omega Universal OS Universal Features ---\n")
         
-        print("1. AI Engine - Ripple Coherence Validation")
+        # === UNIVERSAL RIPPLE ANALYSIS DEMO ===
+        print("="*70)
+        print("🌐 UNIVERSAL RIPPLE COHERENCE ANALYSIS")
+        print("="*70)
+        print("\nScenario: Testing a new education policy with universal impact\n")
+        
+        # Create a sample action in education domain
+        education_action = {
+            'domain': 'education',
+            'action_type': 'curriculum_reform',
+            'impact_score': 0.78,
+            'alignment': 0.82,
+            'magnitude': 1.0,
+            'description': 'Implement technology-integrated curriculum'
+        }
+        
+        print("Analyzing universal ripple effects...")
+        universal_analysis = self.universal_coordinator.analyze_universal_ripple(education_action)
+        
+        print(f"\n📊 Universal Ripple Analysis Results:")
+        print(f"   Primary Domain: {universal_analysis['primary_domain'].upper()}")
+        print(f"   Universal Coherence Score: {universal_analysis['universal_coherence_score']:.3f}")
+        print(f"   Status: {'✓ UNIVERSALLY COHERENT' if universal_analysis['is_universally_coherent'] else '⚠ NEEDS ALIGNMENT'}")
+        print(f"   Harmonic Resonance: {universal_analysis['harmonic_resonance']['resonance_score']:.3f} ({universal_analysis['harmonic_resonance']['resonance_type']})")
+        
+        print(f"\n🔄 Cross-Domain Ripple Propagation:")
+        for domain, impact_data in universal_analysis['cross_domain_impacts'].items():
+            strength_icon = "🔥" if impact_data['propagation_strength'] == 'strong' else "⚡" if impact_data['propagation_strength'] == 'moderate' else "✨"
+            print(f"   {strength_icon} {domain.upper():12} → Impact: {impact_data['impact_score']:.3f} ({impact_data['propagation_strength']})")
+        
+        print(f"\n⚖️  Ethical Alignment:")
+        ethics = universal_analysis['ethical_alignment']
+        print(f"   Overall Ethics Score: {ethics['overall_ethics_score']:.3f}")
+        print(f"   Status: {ethics['ethics_level'].upper()}")
+        print(f"   Ethically Aligned: {'✓ YES' if ethics['ethically_aligned'] else '⚠ NEEDS REVIEW'}")
+        
+        print(f"\n💡 Universal Recommendations:")
+        for i, rec in enumerate(universal_analysis['recommendations'], 1):
+            print(f"   {i}. {rec}")
+        
+        print("\n" + "="*70)
+        
+        # === INDIVIDUAL MODULE DEMOS ===
+        print("\n\n1. AI Engine - Basic Ripple Coherence Validation")
         ripple_data = {
             'impact_score': 0.75,
             'alignment': 0.80,
@@ -386,7 +495,53 @@ class OmegaUniversalOS:
         print("   ✓ Market scenario simulation")
         print("   ✓ Supply-demand modeling\n")
         
-        print("\nAll modules initialized and ready for use!")
+        # === HOLISTIC SYNTHESIS DEMO ===
+        print("="*70)
+        print("🔮 HOLISTIC UNIVERSAL SYNTHESIS")
+        print("="*70)
+        print("\nIntegrating insights from all domain modules...\n")
+        
+        # Gather sample results from each domain
+        domain_results = {
+            'education': {
+                'coherence_result': {'coherence_score': 0.78},
+                'impact_score': 0.75
+            },
+            'healthcare': {
+                'coherence_result': {'coherence_score': 0.72},
+                'impact_score': 0.68
+            },
+            'governance': {
+                'ripple_coherence': {'coherence_score': 0.81},
+                'impact_analysis': {'overall_impact': 0.79}
+            },
+            'economics': {
+                'coherence_result': {'coherence_score': 0.76},
+                'impact_score': 0.73
+            }
+        }
+        
+        universal_summary = self.universal_coordinator.synthesize_universal_summary(domain_results)
+        
+        print(f"📈 Universal Summary:")
+        print(f"   Universal Coherence Score: {universal_summary['universal_coherence_score']:.3f}")
+        print(f"   Cross-Domain Synergy: {universal_summary['cross_domain_synergy']:.3f}")
+        print(f"   System State: {universal_summary['system_state'].upper()}")
+        print(f"   Universally Aligned: {'✓ YES' if universal_summary['universally_aligned'] else '⚠ NEEDS ATTENTION'}")
+        
+        print(f"\n🎯 Domain Performance:")
+        for domain, coherence in universal_summary['domain_coherences'].items():
+            bar_length = int(coherence * 20)
+            bar = "█" * bar_length + "░" * (20 - bar_length)
+            print(f"   {domain.upper():12} [{bar}] {coherence:.3f}")
+        
+        print(f"\n🧠 Holistic Insights:")
+        for i, insight in enumerate(universal_summary['holistic_insights'], 1):
+            print(f"   • {insight}")
+        
+        print("\n" + "="*70)
+        print("\n✨ All modules initialized and universally integrated!")
+        print("   The system is ready for true cross-domain ripple coherence analysis.\n")
 
 
 def main():
