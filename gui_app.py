@@ -33,7 +33,12 @@ except ImportError:
     print("  pip install matplotlib")
     sys.exit(1)
 
-import numpy as np
+try:
+    import numpy as np
+except ImportError:
+    print("Error: numpy is not installed. Please install it using:")
+    print("  pip install numpy")
+    sys.exit(1)
 
 from utils import setup_logging, load_config, get_logger
 from ai_engine import RippleEngine
@@ -41,6 +46,25 @@ from education import AdaptiveLearningSystem, StudentRippleTracker
 from healthcare import HealthRippleSimulator, PublicHealthAnalyzer
 from governance import PolicyTester, ResourceAllocator
 from economics import TradeOffAnalyzer, MarketSimulator
+
+
+# Default configuration values for GUI forms
+DEFAULT_VALUES = {
+    'education': {
+        'engagement': 0.80,
+        'comprehension': 0.75,
+        'collaboration': 0.70
+    },
+    'healthcare': {
+        'vital_signs': 0.78,
+        'exercise': 0.70,
+        'nutrition': 0.75
+    },
+    'governance': {
+        'economic_impact': 0.72,
+        'social_impact': 0.80
+    }
+}
 
 
 class RippleChart(FigureCanvas):
@@ -314,17 +338,17 @@ class EducationDashboard(DashboardWidget):
         self.engagement = QDoubleSpinBox()
         self.engagement.setRange(0.0, 1.0)
         self.engagement.setSingleStep(0.05)
-        self.engagement.setValue(0.80)
+        self.engagement.setValue(DEFAULT_VALUES['education']['engagement'])
         
         self.comprehension = QDoubleSpinBox()
         self.comprehension.setRange(0.0, 1.0)
         self.comprehension.setSingleStep(0.05)
-        self.comprehension.setValue(0.75)
+        self.comprehension.setValue(DEFAULT_VALUES['education']['comprehension'])
         
         self.collaboration = QDoubleSpinBox()
         self.collaboration.setRange(0.0, 1.0)
         self.collaboration.setSingleStep(0.05)
-        self.collaboration.setValue(0.70)
+        self.collaboration.setValue(DEFAULT_VALUES['education']['collaboration'])
         
         form_layout.addRow("Student ID:", self.student_id)
         form_layout.addRow("Engagement Score:", self.engagement)
@@ -411,17 +435,17 @@ class HealthcareDashboard(DashboardWidget):
         self.vital_signs = QDoubleSpinBox()
         self.vital_signs.setRange(0.0, 1.0)
         self.vital_signs.setSingleStep(0.05)
-        self.vital_signs.setValue(0.78)
+        self.vital_signs.setValue(DEFAULT_VALUES['healthcare']['vital_signs'])
         
         self.exercise = QDoubleSpinBox()
         self.exercise.setRange(0.0, 1.0)
         self.exercise.setSingleStep(0.05)
-        self.exercise.setValue(0.70)
+        self.exercise.setValue(DEFAULT_VALUES['healthcare']['exercise'])
         
         self.nutrition = QDoubleSpinBox()
         self.nutrition.setRange(0.0, 1.0)
         self.nutrition.setSingleStep(0.05)
-        self.nutrition.setValue(0.75)
+        self.nutrition.setValue(DEFAULT_VALUES['healthcare']['nutrition'])
         
         form_layout.addRow("Patient ID:", self.patient_id)
         form_layout.addRow("Vital Signs Score:", self.vital_signs)
@@ -517,12 +541,12 @@ class GovernanceDashboard(DashboardWidget):
         self.economic_impact = QDoubleSpinBox()
         self.economic_impact.setRange(0.0, 1.0)
         self.economic_impact.setSingleStep(0.05)
-        self.economic_impact.setValue(0.72)
+        self.economic_impact.setValue(DEFAULT_VALUES['governance']['economic_impact'])
         
         self.social_impact = QDoubleSpinBox()
         self.social_impact.setRange(0.0, 1.0)
         self.social_impact.setSingleStep(0.05)
-        self.social_impact.setValue(0.80)
+        self.social_impact.setValue(DEFAULT_VALUES['governance']['social_impact'])
         
         form_layout.addRow("Policy ID:", self.policy_id)
         form_layout.addRow("Policy Type:", self.policy_type)
