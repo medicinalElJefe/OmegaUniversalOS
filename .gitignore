@@ -48,7 +48,9 @@ htmlcov/
 *.log
 
 # PyInstaller
+# Exclude auto-generated spec files but keep our custom one
 *.spec
+!omega_gui.spec
 
 # Temporary files
 test_cross_domain.py
