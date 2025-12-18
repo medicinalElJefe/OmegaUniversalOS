@@ -47,6 +47,12 @@ htmlcov/
 # Logs
 *.log
 
+# PyInstaller
+*.spec
+
+# Temporary files
+test_cross_domain.py
+
 # Configuration (optional - uncomment if you want to ignore local configs)
 # config.json
 # *.local.json
