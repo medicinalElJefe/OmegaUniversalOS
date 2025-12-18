@@ -7,6 +7,9 @@ from typing import Dict, List, Any, Optional
 from datetime import datetime
 import random
 
+# Seed random for reproducibility in testing
+random.seed(42)
+
 
 class MarketSimulator:
     """

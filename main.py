@@ -411,7 +411,16 @@ def main():
     
     try:
         # Initialize Omega Universal OS
-        omega = OmegaUniversalOS(config_path=args.config)
+        try:
+            omega = OmegaUniversalOS(config_path=args.config)
+        except FileNotFoundError:
+            print(f"\nError: Configuration file not found: {args.config}")
+            print("Please check the file path or run without --config for default settings.")
+            sys.exit(1)
+        except Exception as e:
+            print(f"\nError initializing Omega Universal OS: {e}")
+            print("Please check your configuration file format (should be valid JSON).")
+            sys.exit(1)
         
         # Run in selected mode
         if args.mode == 'interactive':

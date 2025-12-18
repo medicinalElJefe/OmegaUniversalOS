@@ -40,7 +40,9 @@ setup(
     ],
     python_requires='>=3.8',
     install_requires=[
-        # Core dependencies - keeping minimal for base functionality
+        # No external dependencies - uses Python standard library only
+        # This is an intentional design decision to minimize deployment complexity
+        # and ensure maximum compatibility across environments
     ],
     extras_require={
         'dev': [

@@ -121,9 +121,14 @@ class RippleEngine:
         self.logger.info("Applying self-correction...")
         
         corrected = ripple_data.copy()
-        validation = self.validate_coherence(ripple_data)
         
-        if not validation['coherent']:
+        # Calculate coherence inline to avoid recursive call overhead
+        impact_score = corrected.get('impact_score', 0.5)
+        alignment = corrected.get('alignment', 0.5)
+        coherence_score = (impact_score * 0.6 + alignment * 0.4)
+        is_coherent = coherence_score >= self.coherence_threshold
+        
+        if not is_coherent:
             # Apply corrections
             if corrected.get('impact_score', 0) < self.coherence_threshold:
                 corrected['impact_score'] = min(
