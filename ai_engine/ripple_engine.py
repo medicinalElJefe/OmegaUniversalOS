@@ -48,6 +48,13 @@ class RippleEngine:
         # Calculate coherence score
         coherence_score = (impact_score * 0.6 + alignment * 0.4)
         
+        # Apply domain-specific adjustments if cross-domain data is provided
+        if 'cross_domain_impacts' in ripple_data:
+            cross_impacts = ripple_data['cross_domain_impacts']
+            cross_domain_score = self._calculate_cross_domain_coherence(cross_impacts)
+            # Blend single-domain and cross-domain scores
+            coherence_score = (coherence_score * 0.7 + cross_domain_score * 0.3)
+        
         # Apply fail-safe checks
         if self.fail_safe_active and coherence_score < 0.3:
             self.logger.warning(f"Fail-safe triggered: coherence score {coherence_score} too low")
@@ -67,6 +74,73 @@ class RippleEngine:
         self.ripple_history.append(result)
         
         return result
+    
+    def validate_multi_domain_coherence(self, domain_ripples: Dict[str, Dict[str, Any]]) -> Dict[str, Any]:
+        """
+        Validate coherence across multiple domains simultaneously.
+        
+        Args:
+            domain_ripples: Dictionary mapping domain names to their ripple data
+            
+        Returns:
+            Multi-domain coherence validation results
+        """
+        self.logger.info(f"Validating multi-domain coherence across {len(domain_ripples)} domains...")
+        
+        domain_coherences = {}
+        coherence_scores = []
+        
+        # Validate each domain
+        for domain, ripple_data in domain_ripples.items():
+            # Ensure domain is set in ripple data
+            ripple_data['domain'] = domain
+            result = self.validate_coherence(ripple_data)
+            domain_coherences[domain] = result
+            coherence_scores.append(result['coherence_score'])
+        
+        # Calculate aggregate coherence
+        avg_coherence = sum(coherence_scores) / len(coherence_scores) if coherence_scores else 0.5
+        min_coherence = min(coherence_scores) if coherence_scores else 0.5
+        max_coherence = max(coherence_scores) if coherence_scores else 0.5
+        
+        # Multi-domain is coherent if average is good AND minimum is acceptable
+        multi_coherent = avg_coherence >= self.coherence_threshold and min_coherence >= (self.coherence_threshold - 0.15)
+        
+        return {
+            'multi_domain_coherent': multi_coherent,
+            'average_coherence': avg_coherence,
+            'min_coherence': min_coherence,
+            'max_coherence': max_coherence,
+            'domain_coherences': domain_coherences,
+            'coherence_range': max_coherence - min_coherence,
+            'balanced': (max_coherence - min_coherence) < 0.3,
+            'timestamp': datetime.now().isoformat()
+        }
+    
+    def _calculate_cross_domain_coherence(self, cross_impacts: Dict[str, Any]) -> float:
+        """
+        Calculate coherence score from cross-domain impacts.
+        
+        Args:
+            cross_impacts: Dictionary of cross-domain impact data
+            
+        Returns:
+            Cross-domain coherence score
+        """
+        if not cross_impacts:
+            return 0.5
+        
+        impact_scores = []
+        for domain_data in cross_impacts.values():
+            if isinstance(domain_data, dict):
+                impact_scores.append(domain_data.get('impact_score', 0.5))
+            else:
+                impact_scores.append(float(domain_data))
+        
+        # Calculate average cross-domain impact
+        if impact_scores:
+            return sum(impact_scores) / len(impact_scores)
+        return 0.5
     
     def simulate_propagation(self, initial_ripple: Dict[str, Any], 
                             depth: int = 3) -> List[Dict[str, Any]]:
